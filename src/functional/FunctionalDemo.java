@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.Random;
 
 /**
  *
@@ -19,11 +20,10 @@ public class FunctionalDemo {
 
     public static void main(String[] args) {
         String str = "dammitimmad";
+        Random random = new Random();
         List<String> strs = new ArrayList<>();
         List<Integer> ints = new ArrayList<>();
-        Supplier<Integer> intRandoms = () -> {
-            return (int)(Math.random() * 100);
-        };
+        Supplier<Integer> intRandoms = () -> (random.nextInt(100));
         
         // Add Elements to List
         strs.addAll(Stream.of(
@@ -53,18 +53,14 @@ public class FunctionalDemo {
                 .filter(s -> !s.contains("Test"))
                 .findAny()
                 .stream()
-                .forEach((String s) -> {
-                    System.out.println("Not test: " + s);
-                });
+                .forEach((String s) -> System.out.println("Not test: " + s));
         
         // Find First
         strs.stream()
                 .filter(s -> s.contains("Test"))
                 .findFirst()
                 .stream()
-                .forEach((String s) -> {
-                    System.out.println("First test: " + s);
-                });
+                .forEach((String s) -> System.out.println("First test: " + s));
         
         // Flat Map
         strs.stream()
@@ -83,7 +79,7 @@ public class FunctionalDemo {
         // Map to Int
         ints.stream()
                 .mapToInt(i -> i * 2)
-                .forEach((i) -> System.out.print(String.valueOf(i) + " "));
+                .forEach(i -> System.out.print(String.valueOf(i) + " "));
         System.out.print("\n");
         
         // Sorted & Limit
@@ -109,7 +105,6 @@ public class FunctionalDemo {
         
         // Peek
         ints.stream()
-                .peek(i -> System.out.print("Original: " + i.toString() + " "))
                 .map(i -> i + 1)
                 .forEach(i -> System.out.print(" New: " + i.toString() + "\n"));
         
@@ -118,7 +113,7 @@ public class FunctionalDemo {
         ints.stream()
                 .reduce((a, b) -> a + b)
                 .stream()
-                .forEach(i -> System.out.print(i));
+                .forEach(System.out::print);
         System.out.print("\n");
         
         // Skip
@@ -145,7 +140,7 @@ public class FunctionalDemo {
                 .collect(ArrayList::new,
                         (list, ele) -> list.add(0, (char) ele),
                         (list1, list2) -> list1.add(0, list2))
-                .forEach(e -> System.out.print(e));
+                .forEach(System.out::print);
         System.out.print("\n");
     }
 }
